@@ -1,15 +1,12 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: ; -*-
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
 
-(setq user-full-name "Magnus Christian Larsen"
-      user-mail-address "macl@itconfidence.dk")
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets.
 
-(setq doom-font (font-spec :family "Fira Code" :size 18)
-      doom-variable-pitch-font (font-spec :family "Source Code Variable" :size 18)
-      doom-big-font (font-spec :family "Fira Code" :size 24))
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -23,16 +20,13 @@
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(setq doom-theme 'doom-dracula)
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
 
 ;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
-
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -50,5 +44,27 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(setq user-full-name "Magnus Christian Larsen"
+      user-mail-address "macl@itconfidence.dk")
 
-(add-hook 'vue-mode-hook #'lsp!)
+(setq doom-font (font-spec :family "Fira Code" :size 18)
+      doom-variable-pitch-font (font-spec :family "Source Code Variable" :size 18)
+      doom-big-font (font-spec :family "Fira Code" :size 24))
+
+(setq doom-theme 'doom-dracula)
+
+(setq org-directory "~/org/")
+
+(setq display-line-numbers-type t)
+
+(require 'vue-mode)
+  (add-to-list 'vue-mode-hook #'smartparens-mode)
+(require 'lsp-mode)
+  (require 'lsp-vue)
+  (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
+  (with-eval-after-load 'lsp-mode
+    (require 'lsp-flycheck))
+(require 'company-lsp)
+  (push 'company-lsp company-backends)
+
+(custom-set-faces '(mmm-default-submode-face ((t (:background nil)))))

@@ -52,3 +52,6 @@
 (package! treemacs-evil)
 (package! evil-tutor)
 (package! vue-mode)
+(package! lsp-mode)
+(package! lsp-vue)
+(package! company-lsp)
